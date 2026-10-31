@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: rims-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    region: oregon
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: SPRING_PROFILES_ACTIVE
+        value: postgres
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: rims-postgres
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: rims-postgres
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: rims-postgres
+          property: password
+
+databases:
+  - name: rims-postgres
+    databaseName: rims_db
+    user: rims_user
+    plan: free
+    region: oregon

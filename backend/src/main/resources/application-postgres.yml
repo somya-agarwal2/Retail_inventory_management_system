@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:rims_db}
-    username: ${POSTGRES_USER:rims_user}
-    password: ${POSTGRES_PASSWORD:rims_secure_password_2026}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:rims_db}}
+    username: ${SPRING_DATASOURCE_USERNAME:${POSTGRES_USER:rims_user}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${POSTGRES_PASSWORD:rims_secure_password_2026}}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 20
