@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  rims-db:
+    image: postgres:16-alpine
+    container_name: rims-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: rims_db
+      POSTGRES_USER: rims_user
+      POSTGRES_PASSWORD: rims_secure_password_2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - rims_pgdata:/var/lib/postgresql/data
+      - ./backend/src/main/resources/db/migration:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rims_user -d rims_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - rims-network
+
+  rims-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: rims-backend
+    restart: unless-stopped
+    depends_on:
+      rims-db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://rims-db:5432/rims_db
+      SPRING_DATASOURCE_USERNAME: rims_user
+      SPRING_DATASOURCE_PASSWORD: rims_secure_password_2026
+      JWT_SECRET: c2VjdXJlX2VudGVycHJpc2Vfand0X3NlY3JldF9rZXlfZm9yX3JpbXNfc3ByaW5nX2Jvb3RfMjAyNg==
+      JWT_EXPIRATION_MS: 86400000
+    ports:
+      - "8080:8080"
+    networks:
+      - rims-network
+
+  rims-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: rims-frontend
+    restart: unless-stopped
+    depends_on:
+      - rims-backend
+    ports:
+      - "80:80"
+      - "3000:80"
+    networks:
+      - rims-network
+
+volumes:
+  rims_pgdata:
+    driver: local
+
+networks:
+  rims-network:
+    driver: bridge
