@@ -1,0 +1,9 @@
+{
+  "name": "retail-inventory-management-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Retail Inventory Management System (PRG_RIMS_001) for XYZ Retail Corporation",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build"
+  }
+}
