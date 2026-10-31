@@ -1,12 +1,12 @@
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:rims_db}}
-    username: ${SPRING_DATASOURCE_USERNAME:${POSTGRES_USER:rims_user}}
-    password: ${SPRING_DATASOURCE_PASSWORD:${POSTGRES_PASSWORD:rims_secure_password_2026}}
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:rims_db}
+    username: ${POSTGRES_USER:rims_user}
+    password: ${POSTGRES_PASSWORD:rims_secure_password_2026}
     driver-class-name: org.postgresql.Driver
     hikari:
-      maximum-pool-size: 20
-      minimum-idle: 5
+      maximum-pool-size: 10
+      minimum-idle: 2
       idle-timeout: 300000
       connection-timeout: 20000
   jpa:
@@ -15,6 +15,4 @@ spring:
       ddl-auto: update
     show-sql: false
   flyway:
-    enabled: true
-    baseline-on-migrate: true
-    locations: classpath:db/migration
+    enabled: false

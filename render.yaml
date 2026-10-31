@@ -12,15 +12,23 @@ services:
         value: 8080
       - key: SPRING_PROFILES_ACTIVE
         value: postgres
-      - key: SPRING_DATASOURCE_URL
+      - key: POSTGRES_HOST
         fromDatabase:
           name: rims-postgres
-          property: connectionString
-      - key: SPRING_DATASOURCE_USERNAME
+          property: host
+      - key: POSTGRES_PORT
+        fromDatabase:
+          name: rims-postgres
+          property: port
+      - key: POSTGRES_DB
+        fromDatabase:
+          name: rims-postgres
+          property: database
+      - key: POSTGRES_USER
         fromDatabase:
           name: rims-postgres
           property: user
-      - key: SPRING_DATASOURCE_PASSWORD
+      - key: POSTGRES_PASSWORD
         fromDatabase:
           name: rims-postgres
           property: password
