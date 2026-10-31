@@ -198,3 +198,41 @@ pipeline {
     }
 }
 ```
+
+---
+
+## 7. Vercel Cloud Deployment Guide
+
+The frontend is specifically configured for zero-configuration, zero-downtime deployment on Vercel.
+
+### Step 1: Push to GitHub (Already Completed)
+The repository is fully pushed and synced to GitHub:
+`https://github.com/somya-agarwal2/Retail_inventory_management_system.git` on branch `main`.
+
+### Step 2: 1-Click Import on Vercel
+1. Navigate to **[vercel.com/new](https://vercel.com/new)**.
+2. Select your repository: `somya-agarwal2/Retail_inventory_management_system`.
+3. Configure the Project Settings (both Root Directory options are pre-configured):
+   - **Framework Preset**: `Vite`
+   - **Root Directory**: `./` (Default) or `frontend`
+   - **Build Command**: `cd frontend && npm install && npm run build` (or `npm run build` if Root Directory is `frontend`)
+   - **Output Directory**: `frontend/dist` (or `dist` if Root Directory is `frontend`)
+4. Click **Deploy**.
+
+### Step 3: Environment Variables (Optional for Live Backend)
+- By default, the application runs with full preview resilience — all 8 user roles, KPIs, SVG barcodes, RFID simulations, and 10 reports work interactively using built-in realistic mock fallback data.
+- To connect to a live cloud backend (e.g. deployed on Render, Railway, or AWS):
+  - Add Environment Variable:
+    - **Key**: `VITE_API_BASE_URL`
+    - **Value**: `https://<your-backend-domain>/api/v1`
+
+### Step 4: CLI Deployment Option
+If deploying via Vercel CLI from your terminal:
+```bash
+# Option A: Interactive login
+npx vercel --prod
+
+# Option B: Automated with Personal Access Token
+npx vercel --token <YOUR_VERCEL_TOKEN> --prod --yes
+```
+
