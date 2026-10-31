@@ -9,7 +9,7 @@ services:
     healthCheckPath: /actuator/health
     envVars:
       - key: PORT
-        value: 8080
+        value: 10000
       - key: SPRING_PROFILES_ACTIVE
         value: postgres
       - key: POSTGRES_HOST
